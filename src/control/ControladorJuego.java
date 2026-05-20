@@ -13,24 +13,43 @@ import vista.VentanaPasapalabra;
 import vista.VentanaPartida;
 
 /**
- * Controla el inicio, pausa y reanudacion de partidas.
- * Crea la ventana de juego correcta segun el juego elegido.
+ * Controla el ciclo de vida de una partida: inicio, pausa y finalización.
+ * <p>
+ * Se encarga de crear la {@link Partida} con el estado inicial correcto,
+ * abrir la ventana de juego adecuada según el tipo de juego, y actualizar
+ * el estado en el sistema de ficheros al pausar o finalizar.
+ * </p>
  */
 public class ControladorJuego {
 
+    /** Controlador principal que proporciona acceso a la ventana y al usuario activo. */
     private ControladorPrincipal ctrlMain;
+
+    /** Sistema central con las listas de juegos y partidas. */
     private SistemaJuegos sj;
+
+    /** Controlador de ficheros para persistir los cambios de estado. */
     private ControladorFicheros ctrlFiles;
 
+    /**
+     * Construye el controlador de juego a partir del controlador principal.
+     *
+     * @param ctrlMain controlador principal de la aplicación.
+     */
     public ControladorJuego(ControladorPrincipal ctrlMain) {
-        this.ctrlMain = ctrlMain;
-        this.sj = ctrlMain.sj;
+        this.ctrlMain  = ctrlMain;
+        this.sj        = ctrlMain.sj;
         this.ctrlFiles = ctrlMain.ctrlFiles;
     }
 
     /**
-     * Inicia una nueva partida del juego indicado.
-     * Si el juego es multijugador, pide el login del segundo jugador.
+     * Inicia una nueva partida del juego indicado para el usuario activo.
+     * <p>
+     * Solo los jugadores (no los administradores) pueden iniciar partidas.
+     * La partida se registra en el sistema y se persiste en disco antes de abrir la ventana.
+     * </p>
+     *
+     * @param nombreJuego nombre del juego a iniciar (e.g. "Ahorcado", "Pasapalabra").
      */
     public void iniciarNuevaPartida(String nombreJuego) {
         if (ctrlMain.usuarioActivo == null) {
@@ -39,7 +58,6 @@ public class ControladorJuego {
             return;
         }
 
-        // Solo los jugadores (no admin) pueden jugar
         if (!(ctrlMain.usuarioActivo instanceof Jugador)) {
             JOptionPane.showMessageDialog(ctrlMain.ventanaPrincipal,
                 "El administrador no puede jugar partidas.", "Aviso", JOptionPane.WARNING_MESSAGE);
@@ -47,9 +65,8 @@ public class ControladorJuego {
         }
 
         Jugador jugadorPrincipal = (Jugador) ctrlMain.usuarioActivo;
-        Jugador[] jugadores = new Jugador[]{ jugadorPrincipal };
+        Jugador[] jugadores      = new Jugador[]{ jugadorPrincipal };
 
-        // Asignamos id y creamos la partida
         modelo.Juego juego = sj.buscarJuego(nombreJuego);
         if (juego == null) {
             JOptionPane.showMessageDialog(ctrlMain.ventanaPrincipal,
@@ -57,10 +74,8 @@ public class ControladorJuego {
             return;
         }
 
-        Partida partida = juego.iniciarPartida(jugadores);
         int nuevoId = sj.generarIdPartida();
-        // Como Partida no tiene setId, creamos una nueva con el id correcto
-        partida = new Partida(nuevoId, juego, jugadores);
+        Partida partida = new Partida(nuevoId, juego, jugadores);
         partida.setEstadoGuardado(
             juego instanceof Pasapalabra
                 ? ((Pasapalabra) juego).crearEstadoInicial()
@@ -72,7 +87,10 @@ public class ControladorJuego {
     }
 
     /**
-     * Reanuda una partida guardada.
+     * Reanuda una partida previamente guardada abriendo su ventana de juego.
+     * Si la partida ya está finalizada, muestra un aviso y no hace nada.
+     *
+     * @param partida partida que se desea continuar.
      */
     public void continuarPartida(Partida partida) {
         if (partida.isFinalizada()) {
@@ -84,7 +102,11 @@ public class ControladorJuego {
     }
 
     /**
-     * Abre la ventana del juego correspondiente a la partida.
+     * Determina el tipo de juego de la partida y abre la ventana correspondiente
+     * ({@link VentanaAhorcado} o {@link VentanaPasapalabra}).
+     * La ventana se añade al desktop de la ventana principal y se pone en primer plano.
+     *
+     * @param partida partida cuya ventana se debe abrir.
      */
     private void abrirVentanaJuego(Partida partida) {
         VentanaPartida ventana = null;
@@ -106,7 +128,10 @@ public class ControladorJuego {
     }
 
     /**
-     * Guarda el estado actual de una partida y la cierra.
+     * Guarda el estado actual de la partida en disco sin marcarla como finalizada.
+     * Muestra un diálogo de confirmación al jugador.
+     *
+     * @param partida partida que se desea pausar y guardar.
      */
     public void pausarPartida(Partida partida) {
         ctrlFiles.actualizarPartida(partida);
@@ -115,7 +140,10 @@ public class ControladorJuego {
     }
 
     /**
-     * Finaliza la partida, guarda puntuacion y cierra la ventana.
+     * Marca la partida como finalizada y guarda el estado definitivo en disco.
+     * Debe llamarse cuando el juego concluye (victoria, derrota o rosco completo).
+     *
+     * @param partida partida que se desea finalizar.
      */
     public void finalizarPartida(Partida partida) {
         partida.finalizarPartida();

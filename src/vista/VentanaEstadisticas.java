@@ -8,19 +8,37 @@ import control.ControladorPrincipal;
 import modelo.Partida;
 
 /**
- * Muestra las partidas del jugador que tiene la sesion iniciada.
- * Para cada partida: juego, fecha, puntuacion y si esta terminada o en curso.
+ * Ventana interna que muestra el historial de partidas del jugador activo.
+ * <p>
+ * Presenta una tabla con todas las partidas del usuario (tanto terminadas como
+ * en curso) con las columnas: juego, fecha, puntuación y estado.
+ * En la parte inferior se muestra un resumen con el total de partidas,
+ * cuántas están terminadas y cuántas siguen en curso.
+ * </p>
+ *
+ * <p>Solo es accesible para usuarios de tipo {@link modelo.Jugador}.</p>
  */
 public class VentanaEstadisticas extends JInternalFrame {
 
+    /** Controlador principal del que se obtiene el usuario activo y sus partidas. */
     private ControladorPrincipal cp;
 
+    /**
+     * Construye la ventana de estadísticas para el usuario activo.
+     *
+     * @param cp controlador principal con la referencia al usuario activo y al sistema.
+     */
     public VentanaEstadisticas(ControladorPrincipal cp) {
         super("Mis estadisticas", true, true, true, true);
         this.cp = cp;
         crearVista();
     }
 
+    /**
+     * Construye y añade todos los componentes visuales:
+     * un título, la tabla de partidas y el resumen en la parte inferior.
+     * Si el jugador no tiene partidas, muestra un mensaje informativo.
+     */
     private void crearVista() {
         setSize(500, 400);
         setLocation(100, 80);
@@ -32,19 +50,17 @@ public class VentanaEstadisticas extends JInternalFrame {
         titulo.setFont(new Font("Arial", Font.BOLD, 16));
         panel.add(titulo, BorderLayout.NORTH);
 
-        // Obtenemos las partidas del jugador activo
         ArrayList<Partida> misPartidas = cp.sj.getPartidasDeJugador(cp.usuarioActivo.getUsername());
 
         if (misPartidas.isEmpty()) {
             panel.add(new JLabel("No has jugado ninguna partida todavia.", JLabel.CENTER),
                       BorderLayout.CENTER);
         } else {
-            // Tabla con las partidas
             String[] columnas = {"Juego", "Fecha", "Puntuacion", "Estado"};
-            String[][] datos = new String[misPartidas.size()][4];
+            String[][] datos  = new String[misPartidas.size()][4];
 
             for (int i = 0; i < misPartidas.size(); i++) {
-                Partida p = misPartidas.get(i);
+                Partida p  = misPartidas.get(i);
                 datos[i][0] = p.getJuego().getNombre();
                 datos[i][1] = p.getFecha().toString();
                 datos[i][2] = p.getPuntuacionDeJugador(cp.usuarioActivo.getUsername()) + " pts";
@@ -62,7 +78,6 @@ public class VentanaEstadisticas extends JInternalFrame {
             panel.add(new JScrollPane(tabla), BorderLayout.CENTER);
         }
 
-        // Resumen
         long terminadas = misPartidas.stream().filter(Partida::isFinalizada).count();
         JLabel resumen = new JLabel("Total: " + misPartidas.size()
             + " partidas  |  Terminadas: " + terminadas

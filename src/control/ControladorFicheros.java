@@ -17,24 +17,40 @@ import modelo.Usuario;
 import modelo.Juego;
 
 /**
- * Gestiona la lectura y escritura de datos en ficheros .txt
+ * Gestiona la lectura y escritura de datos persistentes en ficheros de texto.
+ * <p>
+ * Todos los ficheros se almacenan en la carpeta {@code data/}, que se crea
+ * automáticamente si no existe al arrancar la aplicación.
+ * </p>
  *
- * Ficheros usados:
- *   - data/usuarios.txt  → un usuario por linea: username;password;tipo;
- *   - data/partidas.txt  → una partida por linea (ver Partida.toStringEnFichero())
- *   - data/preguntas.txt → una pregunta por linea: letra;enunciado;respuesta
+ * <h3>Ficheros gestionados</h3>
+ * <ul>
+ *   <li>{@code data/usuarios.txt} — un usuario por línea: {@code username;password;tipo;}</li>
+ *   <li>{@code data/preguntas.txt} — una pregunta por línea: {@code letra;enunciado;respuesta}</li>
+ *   <li>{@code data/partidas.txt} — una partida por línea (ver {@link Partida#toStringEnFichero()})</li>
+ * </ul>
  */
 public class ControladorFicheros {
 
+    /** Ruta al fichero de usuarios. */
     public final String rutaUsuarios  = "data" + File.separator + "usuarios.txt";
+
+    /** Ruta al fichero de partidas. */
     public final String rutaPartidas  = "data" + File.separator + "partidas.txt";
+
+    /** Ruta al fichero de preguntas de Pasapalabra. */
     public final String rutaPreguntas = "data" + File.separator + "preguntas.txt";
 
+    /** Sistema central al que se añaden los datos cargados. */
     public SistemaJuegos sj;
 
+    /**
+     * Construye el controlador de ficheros y crea la carpeta {@code data/} si no existe.
+     *
+     * @param sj sistema central de juegos.
+     */
     public ControladorFicheros(SistemaJuegos sj) {
         this.sj = sj;
-        // Crea la carpeta data si no existe
         new File("data").mkdirs();
     }
 
@@ -42,6 +58,12 @@ public class ControladorFicheros {
     // USUARIOS
     // ============================================================
 
+    /**
+     * Carga todos los usuarios desde {@code data/usuarios.txt} y los añade al sistema.
+     * Si el fichero no existe, no hace nada.
+     * <p>Formato de cada línea: {@code username;password;tipo;}</p>
+     * <p>El tipo puede ser {@code admin} o {@code player}.</p>
+     */
     public void cargarUsuariosDesdeFichero() {
         File fichero = new File(rutaUsuarios);
         if (!fichero.exists()) return;
@@ -54,7 +76,7 @@ public class ControladorFicheros {
                 String username = sc.next().trim();
                 String passwd   = sc.next().trim();
                 String tipo     = sc.next().trim();
-                sc.nextLine(); // consume el salto de linea
+                sc.nextLine();
 
                 if (tipo.equals("admin")) {
                     sj.usuarios.add(new Admin(username, passwd));
@@ -69,6 +91,10 @@ public class ControladorFicheros {
         }
     }
 
+    /**
+     * Sobreescribe {@code data/usuarios.txt} con el estado actual de la lista de usuarios.
+     * Llama a {@link Usuario#toStringInUserFile()} para serializar cada usuario.
+     */
     public void guardarUsuariosEnFichero() {
         try {
             PrintWriter pw = new PrintWriter(new File(rutaUsuarios));
@@ -81,11 +107,22 @@ public class ControladorFicheros {
         }
     }
 
+    /**
+     * Añade un usuario a la lista del sistema y lo persiste en disco.
+     *
+     * @param usuario nuevo usuario a registrar.
+     */
     public void addUsuario(Usuario usuario) {
         sj.usuarios.add(usuario);
         guardarUsuariosEnFichero();
     }
 
+    /**
+     * Busca un usuario por su nombre de usuario en la lista del sistema.
+     *
+     * @param username nombre de usuario a buscar.
+     * @return el {@link Usuario} encontrado, o {@code null} si no existe.
+     */
     public Usuario buscarUsuario(String username) {
         for (Usuario u : sj.usuarios) {
             if (u.getUsername().equals(username)) return u;
@@ -97,6 +134,13 @@ public class ControladorFicheros {
     // PREGUNTAS DE PASAPALABRA
     // ============================================================
 
+    /**
+     * Carga las preguntas de Pasapalabra desde {@code data/preguntas.txt}.
+     * Si el fichero no existe, genera preguntas de ejemplo y las guarda en disco.
+     * <p>Formato de cada línea: {@code letra;enunciado;respuesta}</p>
+     *
+     * @return lista de {@link Pregunta} lista para usar en el juego.
+     */
     public ArrayList<Pregunta> cargarPreguntasDesdeFichero() {
         ArrayList<Pregunta> lista = new ArrayList<>();
         File fichero = new File(rutaPreguntas);
@@ -115,7 +159,7 @@ public class ControladorFicheros {
                 if (linea.isEmpty()) continue;
                 String[] partes = linea.split(";", 3);
                 if (partes.length == 3) {
-                    char letra = partes[0].trim().charAt(0);
+                    char letra      = partes[0].trim().charAt(0);
                     String enunciado = partes[1].trim();
                     String respuesta = partes[2].trim();
                     lista.add(new Pregunta(letra, enunciado, respuesta));
@@ -128,6 +172,11 @@ public class ControladorFicheros {
         return lista;
     }
 
+    /**
+     * Sobreescribe {@code data/preguntas.txt} con la lista de preguntas indicada.
+     *
+     * @param preguntas lista de preguntas a guardar.
+     */
     private void guardarPreguntasEnFichero(ArrayList<Pregunta> preguntas) {
         try {
             PrintWriter pw = new PrintWriter(new File(rutaPreguntas));
@@ -140,7 +189,12 @@ public class ControladorFicheros {
         }
     }
 
-    // Preguntas de ejemplo por si no existe el fichero
+    /**
+     * Genera un conjunto de preguntas de ejemplo sobre programación orientada a objetos.
+     * Se utiliza cuando {@code data/preguntas.txt} no existe.
+     *
+     * @return lista con preguntas predefinidas.
+     */
     private ArrayList<Pregunta> crearPreguntasEjemplo() {
         ArrayList<Pregunta> lista = new ArrayList<>();
         lista.add(new Pregunta('A', "Con esta letra: Lenguaje de programacion de Apple para iOS", "SWIFT"));
@@ -164,6 +218,14 @@ public class ControladorFicheros {
     // PARTIDAS
     // ============================================================
 
+    /**
+     * Carga todas las partidas desde {@code data/partidas.txt} y las añade al sistema.
+     * Si el fichero no existe, no hace nada.
+     * <p>
+     * Cada línea se divide en dos partes usando el separador {@code |}: los campos
+     * principales (id, juego, fecha, etc.) y el estado guardado del juego.
+     * </p>
+     */
     public void cargarPartidasDesdeFichero() {
         File fichero = new File(rutaPartidas);
         if (!fichero.exists()) return;
@@ -174,30 +236,27 @@ public class ControladorFicheros {
                 String linea = sc.nextLine().trim();
                 if (linea.isEmpty()) continue;
 
-                // Separamos estado guardado del resto usando el separador |
                 String[] partePrincipalYEstado = linea.split("\\|", 2);
-                String partePrincipal = partePrincipalYEstado[0];
-                String estadoGuardado = partePrincipalYEstado.length > 1 ? partePrincipalYEstado[1] : "";
+                String partePrincipal  = partePrincipalYEstado[0];
+                String estadoGuardado  = partePrincipalYEstado.length > 1 ? partePrincipalYEstado[1] : "";
 
-                // Formato: id;nombreJuego;fecha;finalizada;turno;user1,pts1;user2,pts2;...
                 String[] campos = partePrincipal.split(";");
                 if (campos.length < 6) continue;
 
-                int id              = Integer.parseInt(campos[0].trim());
-                String nombreJuego  = campos[1].trim();
-                LocalDate fecha     = LocalDate.parse(campos[2].trim());
-                boolean finalizada  = campos[3].trim().equals("1");
-                int turno           = Integer.parseInt(campos[4].trim());
+                int id             = Integer.parseInt(campos[0].trim());
+                String nombreJuego = campos[1].trim();
+                LocalDate fecha    = LocalDate.parse(campos[2].trim());
+                boolean finalizada = campos[3].trim().equals("1");
+                int turno          = Integer.parseInt(campos[4].trim());
 
-                // Jugadores y puntuaciones: desde el campo 5 en adelante
-                ArrayList<Jugador> jugadoresLista = new ArrayList<>();
-                ArrayList<Integer> puntuacionesLista = new ArrayList<>();
+                ArrayList<Jugador> jugadoresLista     = new ArrayList<>();
+                ArrayList<Integer> puntuacionesLista  = new ArrayList<>();
 
                 for (int i = 5; i < campos.length; i++) {
                     String[] parJugador = campos[i].split(",");
                     if (parJugador.length == 2) {
                         String username = parJugador[0].trim();
-                        int puntos = Integer.parseInt(parJugador[1].trim());
+                        int puntos      = Integer.parseInt(parJugador[1].trim());
                         Usuario u = buscarUsuario(username);
                         if (u instanceof Jugador) {
                             jugadoresLista.add((Jugador) u);
@@ -208,8 +267,8 @@ public class ControladorFicheros {
 
                 if (jugadoresLista.isEmpty()) continue;
 
-                Jugador[] jugadores = jugadoresLista.toArray(new Jugador[0]);
-                int[] puntuaciones = new int[puntuacionesLista.size()];
+                Jugador[] jugadores  = jugadoresLista.toArray(new Jugador[0]);
+                int[] puntuaciones   = new int[puntuacionesLista.size()];
                 for (int i = 0; i < puntuacionesLista.size(); i++) {
                     puntuaciones[i] = puntuacionesLista.get(i);
                 }
@@ -227,6 +286,9 @@ public class ControladorFicheros {
         }
     }
 
+    /**
+     * Sobreescribe {@code data/partidas.txt} con el estado actual de todas las partidas.
+     */
     public void guardarPartidasEnFichero() {
         try {
             PrintWriter pw = new PrintWriter(new File(rutaPartidas));
@@ -239,13 +301,22 @@ public class ControladorFicheros {
         }
     }
 
-    // Añade una partida nueva a la lista y la guarda en disco
+    /**
+     * Añade una nueva partida a la lista del sistema y la persiste en disco.
+     *
+     * @param partida nueva partida a registrar.
+     */
     public void addPartida(Partida partida) {
         sj.partidas.add(partida);
         guardarPartidasEnFichero();
     }
 
-    // Actualiza una partida existente (por id) y guarda en disco
+    /**
+     * Actualiza una partida existente (identificada por su id) en la lista del sistema
+     * y guarda los cambios en disco. Si no se encuentra la partida, no hace nada.
+     *
+     * @param partida partida con los datos actualizados.
+     */
     public void actualizarPartida(Partida partida) {
         for (int i = 0; i < sj.partidas.size(); i++) {
             if (sj.partidas.get(i).getId() == partida.getId()) {

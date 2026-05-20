@@ -4,18 +4,43 @@ import javax.swing.*;
 import control.ControladorUsuarios;
 
 /**
- * Ventana interna para login y registro de usuarios.
- * Muestra campos de usuario y contraseña.
- * Si el comando es "NEW_USER" muestra un campo extra para repetir contraseña.
+ * Ventana interna para el inicio de sesión y el registro de nuevos usuarios.
+ * <p>
+ * Se comporta de forma diferente según el comando con el que se abra:
+ * </p>
+ * <ul>
+ *   <li>{@code "LOGIN"} — muestra campos de usuario y contraseña con el botón "Autenticar".</li>
+ *   <li>{@code "NEW_USER"} — añade un tercer campo para confirmar la contraseña y el botón "Registrar".</li>
+ * </ul>
+ *
+ * <p>Los eventos del botón son delegados a {@link ControladorUsuarios}.</p>
  */
 public class VentanaUsuario extends JInternalFrame {
 
+    /** Controlador que gestiona la autenticación y el registro. */
     public ControladorUsuarios controlador;
+
+    /** Campo de texto para introducir el nombre de usuario. */
     public JTextField user;
+
+    /** Campo de contraseña principal. */
     public JPasswordField passwd;
-    public JPasswordField passwd2; // solo para registro
+
+    /**
+     * Campo de confirmación de contraseña; solo visible en modo registro ({@code "NEW_USER"}).
+     * Es {@code null} cuando la ventana se abre en modo login.
+     */
+    public JPasswordField passwd2;
+
+    /** Botón de acción (Autenticar o Registrar según el modo). */
     public JButton validar;
 
+    /**
+     * Construye la ventana de usuario en el modo indicado.
+     *
+     * @param c       controlador que recibirá los eventos del botón.
+     * @param comando modo de apertura: {@code "LOGIN"} o {@code "NEW_USER"}.
+     */
     public VentanaUsuario(ControladorUsuarios c, String comando) {
         super("", true, true, true, true);
         this.controlador = c;
@@ -23,6 +48,12 @@ public class VentanaUsuario extends JInternalFrame {
         this.crearVista(comando);
     }
 
+    /**
+     * Construye y añade los componentes visuales según el modo de la ventana.
+     *
+     * @param comando {@code "LOGIN"} para mostrar solo usuario/contraseña;
+     *                {@code "NEW_USER"} para mostrar también la confirmación de contraseña.
+     */
     public void crearVista(String comando) {
         JPanel panel = new JPanel();
 

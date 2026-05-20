@@ -10,20 +10,36 @@ import modelo.SistemaJuegos;
 import modelo.Usuario;
 
 /**
- * Logica exclusiva del administrador.
- * Genera los textos para mostrar rankings y estadisticas de usuarios.
+ * Contiene la lógica exclusiva del administrador del sistema.
+ * <p>
+ * Genera los textos formateados para mostrar en el panel de administración:
+ * rankings por juego y la información detallada de todos los usuarios con
+ * sus últimas partidas.
+ * </p>
  */
 public class ControladorAdmin {
 
+    /** Sistema central con el que se consultan usuarios y partidas. */
     private SistemaJuegos sj;
 
+    /**
+     * Construye el controlador de administración.
+     *
+     * @param sj sistema central de juegos.
+     */
     public ControladorAdmin(SistemaJuegos sj) {
         this.sj = sj;
     }
 
     /**
-     * Devuelve el ranking de un juego como texto.
-     * Muestra las partidas finalizadas ordenadas de mayor a menor puntuacion.
+     * Genera el ranking de un juego como texto formateado.
+     * <p>
+     * Obtiene todas las partidas finalizadas del juego indicado, las ordena
+     * de mayor a menor puntuación (jugador principal) y las numera por posición.
+     * </p>
+     *
+     * @param nombreJuego nombre del juego cuyo ranking se desea consultar (e.g. "Ahorcado").
+     * @return cadena de texto con el ranking, o un mensaje indicando que no hay partidas.
      */
     public String getRankingDeJuego(String nombreJuego) {
         ArrayList<Partida> partidas = sj.getPartidasDeJuego(nombreJuego);
@@ -32,7 +48,6 @@ public class ControladorAdmin {
             return "No hay partidas finalizadas de " + nombreJuego + ".";
         }
 
-        // Ordenamos por la primera puntuacion (jugador principal) de mayor a menor
         Collections.sort(partidas, new Comparator<Partida>() {
             @Override
             public int compare(Partida p1, Partida p2) {
@@ -56,7 +71,13 @@ public class ControladorAdmin {
     }
 
     /**
-     * Devuelve la informacion de todos los usuarios con sus ultimas partidas.
+     * Genera un resumen de todos los usuarios del sistema con sus últimas partidas.
+     * <p>
+     * Por cada usuario se muestran hasta las últimas 5 partidas con el nombre del juego,
+     * la fecha, la puntuación y si está en curso o finalizada.
+     * </p>
+     *
+     * @return cadena de texto con la información de todos los usuarios.
      */
     public String getInfoTodosLosUsuarios() {
         StringBuilder sb = new StringBuilder();
@@ -68,7 +89,6 @@ public class ControladorAdmin {
             if (partidas.isEmpty()) {
                 sb.append("  (Sin partidas jugadas)\n");
             } else {
-                // Mostramos las ultimas 5 partidas
                 int inicio = Math.max(0, partidas.size() - 5);
                 for (int i = inicio; i < partidas.size(); i++) {
                     Partida p = partidas.get(i);

@@ -18,30 +18,70 @@ import vista.VentanaPrincipal;
 import vista.VentanaUsuario;
 
 /**
- * Controlador principal: detecta todos los eventos de la ventana principal
- * y coordina el resto de controladores.
+ * Controlador principal de la aplicación.
+ * <p>
+ * Implementa {@link ActionListener} para capturar todos los eventos generados
+ * por los menús y botones de la ventana principal, y delega cada acción al
+ * controlador o vista correspondiente.
+ * </p>
  *
- * Guarda el usuario que ha iniciado sesion en "usuarioActivo".
+ * <h3>Comandos gestionados</h3>
+ * <ul>
+ *   <li>{@code LOGIN} / {@code NEW_USER} — abre la ventana de autenticación o registro.</li>
+ *   <li>{@code LOGOUT} — cierra la sesión del usuario activo.</li>
+ *   <li>{@code SHOW_USERS} — muestra la lista de todos los usuarios.</li>
+ *   <li>{@code NUEVA_PARTIDA} — abre el selector de juego.</li>
+ *   <li>{@code CONTINUAR_PARTIDA} — muestra las partidas guardadas del usuario activo.</li>
+ *   <li>{@code STATS_JUGADOR} — abre la ventana de estadísticas del jugador.</li>
+ *   <li>{@code ADMIN_PANEL} — abre el panel de administración (solo admins).</li>
+ * </ul>
  */
 public class ControladorPrincipal implements ActionListener {
 
+    /** Ventana principal de la aplicación (MDI con JDesktopPane). */
     public VentanaPrincipal ventanaPrincipal;
+
+    /** Controlador encargado de la lectura y escritura en ficheros. */
     public ControladorFicheros ctrlFiles;
+
+    /** Controlador de autenticación y registro de usuarios. */
     public ControladorUsuarios ctrlUsers;
+
+    /** Controlador que gestiona el inicio, pausa y reanudación de partidas. */
     public ControladorJuego ctrlJuego;
+
+    /** Controlador con la lógica exclusiva del administrador. */
     public ControladorAdmin ctrlAdmin;
+
+    /** Sistema central con las listas de usuarios, partidas y juegos. */
     public SistemaJuegos sj;
 
-    // El usuario que ha iniciado sesion (null si nadie lo ha hecho)
+    /**
+     * Usuario que tiene la sesión actualmente iniciada.
+     * Es {@code null} si no hay ninguna sesión activa.
+     */
     public Usuario usuarioActivo;
 
+    /**
+     * Construye el controlador principal con las dependencias indicadas.
+     * Inicializa también los subcontroladores de juego y administración.
+     *
+     * @param cf controlador de ficheros ya inicializado.
+     * @param sj sistema de juegos con los datos cargados.
+     */
     public ControladorPrincipal(ControladorFicheros cf, SistemaJuegos sj) {
         this.ctrlFiles = cf;
-        this.sj = sj;
+        this.sj        = sj;
         this.ctrlJuego = new ControladorJuego(this);
-        this.ctrlAdmin  = new ControladorAdmin(sj);
+        this.ctrlAdmin = new ControladorAdmin(sj);
     }
 
+    /**
+     * Maneja los eventos de acción generados por los elementos de la interfaz.
+     * Distribuye la ejecución según el comando del evento.
+     *
+     * @param e evento de acción con el comando asociado.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         String comando = e.getActionCommand();
@@ -49,7 +89,6 @@ public class ControladorPrincipal implements ActionListener {
 
         switch (comando) {
 
-            // ---- USUARIOS ----
             case "LOGIN":
             case "NEW_USER":
                 ctrlUsers = new ControladorUsuarios(this, comando);
@@ -69,9 +108,7 @@ public class ControladorPrincipal implements ActionListener {
                 JOptionPane.showMessageDialog(ventanaPrincipal, sj.usuariosToString());
                 break;
 
-            // ---- JUEGOS ----
             case "NUEVA_PARTIDA":
-                // Muestra el selector de juego
                 VentanaMenuJuego vMenu = new VentanaMenuJuego(this, sj.juegos);
                 ventanaPrincipal.getContentPane().add(vMenu);
                 vMenu.setVisible(true);
@@ -82,7 +119,6 @@ public class ControladorPrincipal implements ActionListener {
                 mostrarPartidasEnCurso();
                 break;
 
-            // ---- ESTADISTICAS ----
             case "STATS_JUGADOR":
                 if (usuarioActivo == null) {
                     JOptionPane.showMessageDialog(ventanaPrincipal, "Inicia sesion primero.");
@@ -94,7 +130,6 @@ public class ControladorPrincipal implements ActionListener {
                 }
                 break;
 
-            // ---- ADMIN ----
             case "ADMIN_PANEL":
                 if (usuarioActivo instanceof Admin) {
                     VentanaAdmin vAdmin = new VentanaAdmin(this);
@@ -108,7 +143,11 @@ public class ControladorPrincipal implements ActionListener {
         }
     }
 
-    // Muestra las partidas en curso del usuario activo para que elija continuar una
+    /**
+     * Muestra un diálogo con las partidas en curso del usuario activo para que elija
+     * cuál desea continuar. Si no hay sesión iniciada o no hay partidas guardadas,
+     * muestra el mensaje de aviso correspondiente.
+     */
     private void mostrarPartidasEnCurso() {
         if (usuarioActivo == null) {
             JOptionPane.showMessageDialog(ventanaPrincipal, "Inicia sesion primero.");
