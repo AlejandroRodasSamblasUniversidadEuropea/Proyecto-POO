@@ -1,0 +1,3 @@
+admin;admin123;admin;
+jugador1;pass1;player;
+sofi;sofi;player;

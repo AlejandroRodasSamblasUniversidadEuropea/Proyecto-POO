@@ -1,0 +1,5 @@
+1;Pasapalabra;2026-05-20;0;1;jugador1,1|A=C;B=P;C=P;D=P;E=P;F=P;G=P;H=P;I=P;J=P;M=P;O=P;P=P;R=P;V=P
+2;Ahorcado;2026-05-20;1;0;jugador1,8|PROGRAMACION;A,K,R,E,I,C,F,U,O,P,G,M,N;4
+3;Ahorcado;2026-05-20;1;0;jugador1,-6|PROGRAMACION;U,T,Y,V,W,D;6
+4;Pasapalabra;2026-05-20;1;0;sofi,-1|A=C;B=C;C=C;D=C;E=C;F=C;G=C;H=F;I=F;J=F;M=F;O=F;P=F;R=F;V=F
+5;Pasapalabra;2026-05-20;0;1;sofi,1|A=C;B=P;C=P;D=P;E=P;F=P;G=P;H=P;I=P;J=P;M=P;O=P;P=P;R=P;V=P

@@ -1,0 +1,15 @@
+A;Con esta letra: Lenguaje de programacion creado por Apple para iOS;SWIFT
+B;Empieza esta letra: Instruccion que repite un bloque de codigo;BUCLE
+C;Empieza esta letra: Molde del que se crean los objetos en POO;CLASE
+D;Empieza esta letra: Estructura de datos que almacena pares clave-valor;DICCIONARIO
+E;Contiene esta letra: Proceso de reproducir errores para corregirlos;DEPURACION
+F;Empieza esta letra: Bloque de codigo reutilizable con nombre propio;FUNCION
+G;Empieza esta letra: Sistema para controlar versiones de codigo (ej. GitHub);GIT
+H;Empieza esta letra: Relacion padre-hijo entre clases en POO;HERENCIA
+I;Empieza esta letra: Contrato que una clase debe cumplir en Java;INTERFAZ
+J;Empieza esta letra: Lenguaje de programacion orientado a objetos de Oracle;JAVA
+M;Empieza esta letra: Funcion definida dentro de una clase;METODO
+O;Empieza esta letra: Instancia creada a partir de una clase;OBJETO
+P;Empieza esta letra: Capacidad de un objeto de comportarse como varios tipos;POLIMORFISMO
+R;Empieza esta letra: Tecnica donde una funcion se llama a si misma;RECURSION
+V;Empieza esta letra: Espacio de memoria con nombre para guardar un dato;VARIABLE
