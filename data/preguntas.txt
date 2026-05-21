@@ -1,0 +1,26 @@
+A;Empieza esta letra: Estructura de datos que permite almacenar múltiples elementos del mismo tipo bajo un mismo nombre;ARRAY
+B;Empieza esta letra: Instruccion que repite un bloque de codigo;BUCLE
+C;Empieza esta letra: Molde del que se crean los objetos en POO;CLASE
+D;Empieza esta letra: Estructura de datos que almacena pares clave-valor;DICCIONARIO
+E;Contiene esta letra: Proceso de reproducir errores para corregirlos;DEPURACION
+F;Empieza esta letra: Bloque de codigo reutilizable con nombre propio;FUNCION
+G;Empieza esta letra: Sistema para controlar versiones de codigo (ej. GitHub);GIT
+H;Empieza esta letra: Relacion padre-hijo entre clases en POO;HERENCIA
+I;Empieza esta letra: Contrato que una clase debe cumplir en Java;INTERFAZ
+J;Empieza esta letra: Lenguaje de programacion orientado a objetos de Oracle;JAVA
+K;Empieza esta letra: Lenguaje de programacion moderno para Android desarrollado por JetBrains;KOTLIN
+L;Empieza esta letra: Conjunto de clases y funciones reutilizables que se pueden importar en un proyecto;LIBRERIA
+M;Empieza esta letra: Funcion definida dentro de una clase;METODO
+N;Empieza esta letra: Elemento basico de una lista enlazada que guarda un dato y una referencia al siguiente;NODO
+O;Empieza esta letra: Instancia creada a partir de una clase;OBJETO
+P;Empieza esta letra: Capacidad de un objeto de comportarse como varios tipos;POLIMORFISMO
+Q;Contiene esta letra: Lenguaje estandar de consulta y manipulacion de bases de datos relacionales;SQL
+R;Empieza esta letra: Tecnica donde una funcion se llama a si misma;RECURSION
+S;Empieza esta letra: Conjunto de reglas que determina como se debe escribir correctamente el codigo;SINTAXIS
+T;Empieza esta letra: Clasificacion de una variable que define que clase de dato puede almacenar;TIPO
+U;Empieza esta letra: Lenguaje de modelado grafico para disenar y documentar sistemas orientados a objetos;UML
+V;Empieza esta letra: Espacio de memoria con nombre para guardar un dato;VARIABLE
+W;Empieza esta letra: Componente grafico de una interfaz de usuario como un boton o campo de texto;WIDGET
+X;Empieza esta letra: Lenguaje de marcado extensible para representar datos de forma estructurada;XML
+Y;Contiene esta letra: Lenguaje de programacion de alto nivel muy popular en ciencia de datos e inteligencia artificial;PYTHON
+Z;Contiene esta letra: Proceso de convertir un objeto en una secuencia de bytes para guardarlo o transmitirlo;SERIALIZACION
