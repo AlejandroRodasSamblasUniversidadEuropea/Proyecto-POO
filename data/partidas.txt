@@ -4,12 +4,6 @@
 4;Pasapalabra;2026-05-20;1;0;sofi,-1|A=C;B=C;C=C;D=C;E=C;F=C;G=C;H=F;I=F;J=F;M=F;O=F;P=F;R=F;V=F
 5;Pasapalabra;2026-05-20;0;1;sofi,1|A=C;B=P;C=P;D=P;E=P;F=P;G=P;H=P;I=P;J=P;M=P;O=P;P=P;R=P;V=P
 6;Ahorcado;2026-05-20;1;0;Tobias,5|COMPILADOR;A,E,I,O,U,F,P,G,L,C,M,D,S,R;5
-<<<<<<< HEAD
-7;Pasapalabra;2026-05-22;0;0;sofi,0|A=P;B=P;C=P;D=P;E=P;F=P;G=P;H=P;I=P;J=P;K=P;L=P;M=P;N=P;O=P;P=P;Q=P;R=P;S=P;T=P;U=P;V=P;W=P;X=P;Y=P;Z=P
-8;Pasapalabra;2026-05-22;0;1;sofi,1|A=C;B=P;C=P;D=P;E=P;F=P;G=P;H=P;I=P;J=P;K=P;L=P;M=P;N=P;O=P;P=P;Q=P;R=P;S=P;T=P;U=P;V=P;W=P;X=P;Y=P;Z=P
-9;Ahorcado;2026-05-22;1;0;sofi,7|POLIMORFISMO;A,B,C,E,P,I,O,L,N,M,R,F,S;5
-10;Ahorcado;2026-05-22;1;0;sofi,4|PROGRAMACION;P,O,L,I,A,R,F,U,C,N,V,E,S;6
-=======
 7;Ahorcado;2026-05-20;1;0;Tobias,-2|METODO;A,E,I,O,U,P,B,D,G;6
 8;Pasapalabra;2026-05-20;0;0;Tobias,0|A=P;B=P;C=P;D=P;E=P;F=P;G=P;H=P;I=P;J=P;M=P;O=P;P=P;R=P;V=P
 9;Pasapalabra;2026-05-20;0;0;Tobias,0|A=P;B=P;C=P;D=P;E=P;F=P;G=P;H=P;I=P;J=P;M=P;O=P;P=P;R=P;V=P
@@ -18,4 +12,8 @@
 12;Pasapalabra;2026-05-20;0;0;Tobias,0|A=P;B=P;C=P;D=P;E=P;F=P;G=P;H=P;I=P;J=P;M=P;O=P;P=P;R=P;V=P
 13;Pasapalabra;2026-05-20;0;0;Tobias,0|A=P;B=P;C=P;D=P;E=P;F=P;G=P;H=P;I=P;J=P;M=P;O=P;P=P;R=P;V=P
 14;Ahorcado;2026-05-20;0;0;Tobias,0|INTERFAZ;;0
->>>>>>> 6ab34901e99c538406ac873d4d7d8d9d090160a2
+15;Pasapalabra;2026-05-22;0;0;sofi,0|A=P;B=P;C=P;D=P;E=P;F=P;G=P;H=P;I=P;J=P;K=P;L=P;M=P;N=P;O=P;P=P;Q=P;R=P;S=P;T=P;U=P;V=P;W=P;X=P;Y=P;Z=P
+16;Pasapalabra;2026-05-22;0;1;sofi,1|A=C;B=P;C=P;D=P;E=P;F=P;G=P;H=P;I=P;J=P;K=P;L=P;M=P;N=P;O=P;P=P;Q=P;R=P;S=P;T=P;U=P;V=P;W=P;X=P;Y=P;Z=P
+17;Ahorcado;2026-05-22;1;0;sofi,7|POLIMORFISMO;A,B,C,E,P,I,O,L,N,M,R,F,S;5
+18;Ahorcado;2026-05-22;1;0;sofi,4|PROGRAMACION;P,O,L,I,A,R,F,U,C,N,V,E,S;6
+19;Ahorcado;2026-05-22;1;0;sofi,-4|HERENCIA;A,S,V,B,N,M,O,U;6

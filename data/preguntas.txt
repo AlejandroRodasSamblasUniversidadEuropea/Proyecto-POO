@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 A;Empieza esta letra: Estructura de datos que permite almacenar múltiples elementos del mismo tipo bajo un mismo nombre;ARRAY
-=======
-A;Con esta letra: Lenguaje de programacion creado por Apple para iOS;SWIFT
->>>>>>> 6ab34901e99c538406ac873d4d7d8d9d090160a2
 B;Empieza esta letra: Instruccion que repite un bloque de codigo;BUCLE
 C;Empieza esta letra: Molde del que se crean los objetos en POO;CLASE
 D;Empieza esta letra: Estructura de datos que almacena pares clave-valor;DICCIONARIO
@@ -12,7 +8,6 @@ G;Empieza esta letra: Sistema para controlar versiones de codigo (ej. GitHub);GI
 H;Empieza esta letra: Relacion padre-hijo entre clases en POO;HERENCIA
 I;Empieza esta letra: Contrato que una clase debe cumplir en Java;INTERFAZ
 J;Empieza esta letra: Lenguaje de programacion orientado a objetos de Oracle;JAVA
-<<<<<<< HEAD
 K;Empieza esta letra: Lenguaje de programacion moderno para Android desarrollado por JetBrains;KOTLIN
 L;Empieza esta letra: Conjunto de clases y funciones reutilizables que se pueden importar en un proyecto;LIBRERIA
 M;Empieza esta letra: Funcion definida dentro de una clase;METODO
@@ -29,10 +24,3 @@ W;Empieza esta letra: Componente grafico de una interfaz de usuario como un boto
 X;Empieza esta letra: Lenguaje de marcado extensible para representar datos de forma estructurada;XML
 Y;Contiene esta letra: Lenguaje de programacion de alto nivel muy popular en ciencia de datos e inteligencia artificial;PYTHON
 Z;Contiene esta letra: Proceso de convertir un objeto en una secuencia de bytes para guardarlo o transmitirlo;SERIALIZACION
-=======
-M;Empieza esta letra: Funcion definida dentro de una clase;METODO
-O;Empieza esta letra: Instancia creada a partir de una clase;OBJETO
-P;Empieza esta letra: Capacidad de un objeto de comportarse como varios tipos;POLIMORFISMO
-R;Empieza esta letra: Tecnica donde una funcion se llama a si misma;RECURSION
-V;Empieza esta letra: Espacio de memoria con nombre para guardar un dato;VARIABLE
->>>>>>> 6ab34901e99c538406ac873d4d7d8d9d090160a2
